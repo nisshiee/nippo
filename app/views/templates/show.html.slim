@@ -1,23 +1,26 @@
 = form_for @template, url: template_path, class: 'form-horizontal' do |f|
   = f.hidden_field(:id)
   fieldset
-    .form-group.label-floating
-      label.control-label for="template_subject" 件名
-      = f.text_field(:subject, class: 'form-control')
-      p.help-block 「%s」の部分に自動で日付が挿入されます
-    .form-group.label-floating
-      label.control-label for="template_from_name" 差出人名
-      = f.text_field(:from_name, class: 'form-control')
-      p.help-block FROMヘッダに差出人名として日本語で挿入されます
-    .form-group.label-floating
-      label.control-label for="template_cc" CC（オプション）
-      = f.text_field(:cc, class: 'form-control')
-      p.help-block 日報の送信先にCCを追加します（複数追加する場合はコンマ区切りで記入）
-    .form-group.label-floating
-      label.control-label for="template_body" 本文
-      = f.text_area(:body, rows: 30, class: 'form-control')
-    .form-group
-      = f.submit 'テンプレート保存', class: 'btn btn-raised btn-info'
+    .well
+      .form-group.label-floating
+        label.control-label for="template_subject" 件名
+        = f.text_field(:subject, class: 'form-control')
+        p.help-block 「%s」の部分に自動で日付が挿入されます
+      .form-group.label-floating
+        label.control-label for="template_from_name" 差出人名
+        = f.text_field(:from_name, class: 'form-control')
+        p.help-block FROMヘッダに差出人名として日本語で挿入されます
+      .form-group.label-floating
+        label.control-label for="template_cc" CC（オプション）
+        = f.text_field(:cc, class: 'form-control')
+        p.help-block 日報の送信先にCCを追加します（複数追加する場合はコンマ区切りで記入）
+      .form-group.label-floating
+        label.control-label for="template_body" 本文
+        = f.text_area(:body, rows: 30, class: 'form-control')
+      .l_send
+        .form-group
+          = f.button 'テンプレート保存', class: 'btn btn-fab btn-primary material-icon'
+            i.material-icons save
 
 - if current_user.needing_tutorial?
   .modal#tutorial

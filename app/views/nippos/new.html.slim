@@ -1,12 +1,14 @@
 = form_for @nippo, class: 'form-horizontal' do |f|
   fieldset
-    .form-group.label-floating
-      .input-group
+    .well
+      .form-group.label-floating
         label.control-label for="nippo_reported_for" 日付
         = f.text_field(:reported_for, class: 'form-control', tabindex: -1)
         p.help-block 指定した日付の日報として送信されます（件名にも挿入されます）
-        span.input-group-btn
-          = f.submit '日報送信', class: 'btn btn-raised btn-info', tabindex: 2
-    .form-group.label-floating
-      label.control-label for="nippo_body" 本文
-      = f.text_area(:body, rows: 40, class: 'form-control', tabindex: 1)
+            
+      .form-group.label-floating
+        label.control-label for="nippo_body" 本文
+        = f.text_area(:body, rows: 20, class: 'form-control', tabindex: 1)
+  .l_send
+    = f.button '', class: 'btn btn-primary btn-fab material-icons', tabindex: 2
+      i.material-icons &#xE163;
