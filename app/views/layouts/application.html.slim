@@ -5,6 +5,8 @@ html
       | 日報ツール
     meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
     = csrf_meta_tags
+    = stylesheet_link_tag '//fonts.googleapis.com/css?family=Roboto:300,400,500,700', media: 'all'
+    = stylesheet_link_tag '//fonts.googleapis.com/icon?family=Material+Icons', media: 'all'
     = stylesheet_link_tag 'application', media: 'all'
   body
     .container
@@ -16,7 +18,9 @@ html
               span.icon-bar
               span.icon-bar
               span.icon-bar
-            = link_to '日報ツール', root_path, class: 'navbar-brand'
+            = link_to root_path, class: 'navbar-brand' do
+              = image_tag("logo.svg", alt: "nippo", size: "172×77")
+              
           = yield :navbar
 
 
