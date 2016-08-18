@@ -14,6 +14,7 @@ source 'https://rubygems.org' do
   gem 'mysql2'
   gem 'omniauth'
   gem 'omniauth-google-oauth2'
+  gem 'doorkeeper'
   gem 'puma'
   gem 'rails', '5.0.0'
   gem 'rinku', require: 'rails_rinku'
