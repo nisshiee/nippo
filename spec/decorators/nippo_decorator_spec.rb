@@ -35,7 +35,7 @@ RSpec.describe NippoDecorator, type: :decorator do
       end
 
       with_them do
-        it 'returns false' do
+        it 'returns true' do
           travel_to(now) do
             expect(subject.send(:needs_date_notice?)).to eq true
           end
@@ -56,6 +56,16 @@ RSpec.describe NippoDecorator, type: :decorator do
           travel_to(now) do
             expect(subject.send(:needs_date_notice?)).to eq expected
           end
+        end
+      end
+    end
+
+    context 'when nippo does NOT have `reported_for`' do
+      before { subject.reported_for = nil }
+
+      it 'returns false' do
+        travel_to(Time.zone.local(2016, 7, 2, 10)) do
+          expect(subject.send(:needs_date_notice?)).to eq false
         end
       end
     end
@@ -96,6 +106,14 @@ RSpec.describe NippoDecorator, type: :decorator do
         travel_to(Time.zone.local(2016, 7, 4, 10)) do
           expect(subject.date_notice).to eq '<p class="date-notice">← 金曜日の日付です</p>'
         end
+      end
+    end
+
+    context 'when nippo does NOT have `reported_for`' do
+      before { subject.reported_for = nil }
+
+      it 'returns nil' do
+        expect(subject.date_notice).to be_nil
       end
     end
   end

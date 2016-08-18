@@ -33,11 +33,12 @@ class Nippo < ApplicationRecord
     sent:    2,
   }
 
+  validates :reported_for, presence: { message: '日付を正しく入力してください' }
   validates :reported_for, uniqueness: {
     scope: :user,
     message: ->(o, _) { "#{o.reported_for.strftime('%Y-%m-%d')} の日報は既に作成済みです" },
   }
-  validates :body, presence: true
+  validates :body, presence: { message: '本文の入力は必須です' }
   validates_each :subject, :body do |record, attr, _value|
     if record.changed.member?(attr.to_s) && record.status_was != 'draft'
       record.errors[attr] << '送信済みの日報は編集できません'

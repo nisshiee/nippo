@@ -26,3 +26,7 @@ secret_key_base: xxxxxxxxxxxxxxxxxxxxxxx
 
 skylight:
   authentication: xxxxxxxxxxxxxxxxxxxxxx
+
+sentry:
+  private_dsn: xxxxxxxxxxxxxxxxxxxxx
+  public_dsn: xxxxxxxxxxxxxxxxxxxxx

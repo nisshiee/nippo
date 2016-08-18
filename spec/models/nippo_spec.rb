@@ -4,6 +4,10 @@ RSpec.describe Nippo do
 
   it { is_expected.to be_valid }
 
+  it { is_expected.to be_invalid_on(:reported_for).with(nil) }
+  it { is_expected.to be_invalid_on(:reported_for).with('') }
+  it { is_expected.to be_invalid_on(:reported_for).with('invalid date') }
+
   describe 'uniqueness validation' do
     let(:user) { FG.create(:user) }
     let(:reported_for) { Time.zone.today }

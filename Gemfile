@@ -7,6 +7,7 @@ source 'https://rubygems.org' do
   gem 'coffee-rails'
   gem 'config'
   gem 'devise'
+  gem 'gon'
   gem 'google-api-client'
   gem 'jbuilder'
   gem 'jquery-rails'
@@ -26,6 +27,7 @@ source 'https://rubygems.org' do
   gem 'whenever', require: false
 
   group :production do
+    gem 'sentry-raven'
     gem 'skylight'
   end
 
