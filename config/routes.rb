@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   resources :nippos, only: %i(new create show update)
 
   namespace :api, format: 'json' do
-    resources :nippos, only: %i(index)
+    resources :nippos, only: %i(new create index update)
   end
 
   devise_for :users, controllers: {
