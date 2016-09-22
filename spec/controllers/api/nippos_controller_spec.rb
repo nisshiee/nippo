@@ -9,14 +9,12 @@ RSpec.describe Api::NipposController do
 
   describe 'when login successful' do
     let(:token) { double acceptable?: true }
-    let(:user) { FG.create(:user) }
     before do
-      controller.stub(:doorkeeper_token) { token }
-      controller.stub(:current_user) { user }
+      allow(controller).to receive(:doorkeeper_token) { token }
+      allow(controller).to receive(:current_user) { current_user }
       @nippo = FG.create(:nippo, sent_at: Time.zone.now)
     end
     describe 'GET index' do
-
       it 'returns success' do
         get :index
         expect(response).to have_http_status(:success)
@@ -50,7 +48,7 @@ RSpec.describe Api::NipposController do
         end.to change(Nippo, :count).by(1)
       end
 
-      context 'when nippo is invalid' do
+      context 'send alert' do
         it 'show alert and form' do
           post :create, params: {
                           nippo: {
@@ -58,8 +56,11 @@ RSpec.describe Api::NipposController do
                               body: '',
                           },
                       }
+          expect(response).to have_http_status(:success)
           expect(flash[:alert]).to be_present
-          expect(response).to render_template(:new)
+          expect(response).to be_present
+          # FIXME
+          expect(response.body).to eq "[\"本文の入力は必須です\"]"
         end
       end
 
@@ -67,7 +68,7 @@ RSpec.describe Api::NipposController do
         let(:sender) { double('NippoSender') }
         let(:errors) { double('errors') }
 
-        it 'redirects to nippo#show' do
+        it 'send alert' do
           allow(NippoSender).to receive(:new) { sender }
           allow(sender).to receive(:run) { nil }
           allow(sender).to receive(:errors) { errors }
@@ -79,8 +80,10 @@ RSpec.describe Api::NipposController do
                               body: FFaker::Lorem.paragraph,
                           },
                       }
-
-          expect(response).to redirect_to(nippo_path(assigns(:nippo)))
+          expect(response).to have_http_status(:success)
+          expect(response).to be_present
+          # FIXME
+          expect(response.body).to eq "error!"
         end
       end
     end
@@ -98,8 +101,9 @@ RSpec.describe Api::NipposController do
       context 'when nippo is invalid' do
         it 'show alert and form' do
           patch :update, params: { id: nippo.id, nippo: { body: '' } }
-          expect(flash[:alert]).to be_present
-          expect(response).to render_template(:show)
+          expect(response).to be_present
+          # FIXME
+          expect(response.body).to eq "[\"本文の入力は必須です\"]"
         end
       end
 
@@ -108,6 +112,7 @@ RSpec.describe Api::NipposController do
 
         it 'redirects show' do
           patch :update, params: { id: nippo.id, nippo: { body: 'changed' } }
+          # TODO apiでredirectはやめたい
           expect(response).to redirect_to(nippo_path(nippo))
         end
       end
@@ -127,8 +132,9 @@ RSpec.describe Api::NipposController do
 
       context 'when nippo is draft' do
         it 'does NOT create reaction object' do
-          expect { get :show, params: { id: nippo.id } }
-              .not_to change { Reaction.find_by(user: current_user, nippo: nippo)&.page_view || 0 }
+          expect do
+            get :show, params: { id: nippo.id }
+          end.not_to change { Reaction.find_by(user: current_user, nippo: nippo)&.page_view || 0 }
           expect(assigns(:nippo)).to eq nippo
         end
 
