@@ -40,27 +40,27 @@ RSpec.describe Api::NipposController do
       it 'creates new nippo', :vcr do
         expect do
           post :create, params: {
-                          nippo: {
-                              reported_for: Time.zone.today,
-                              body: FFaker::Lorem.paragraph,
-                          },
-                      }
+            nippo: {
+              reported_for: Time.zone.today,
+              body: FFaker::Lorem.paragraph,
+            },
+          }
         end.to change(Nippo, :count).by(1)
       end
 
       context 'send alert' do
         it 'show alert and form' do
           post :create, params: {
-                          nippo: {
-                              reported_for: Time.zone.today,
-                              body: '',
-                          },
-                      }
+            nippo: {
+              reported_for: Time.zone.today,
+              body: '',
+            },
+          }
           expect(response).to have_http_status(:success)
           expect(flash[:alert]).to be_present
           expect(response).to be_present
           # FIXME
-          expect(response.body).to eq "[\"本文の入力は必須です\"]"
+          expect(response.body).to eq '["本文の入力は必須です"]'
         end
       end
 
@@ -75,15 +75,15 @@ RSpec.describe Api::NipposController do
           allow(errors).to receive(:full_messages) { 'error!' }
 
           post :create, params: {
-                          nippo: {
-                              reported_for: Time.zone.today,
-                              body: FFaker::Lorem.paragraph,
-                          },
-                      }
+            nippo: {
+              reported_for: Time.zone.today,
+              body: FFaker::Lorem.paragraph,
+            },
+          }
           expect(response).to have_http_status(:success)
           expect(response).to be_present
           # FIXME
-          expect(response.body).to eq "error!"
+          expect(response.body).to eq 'error!'
         end
       end
     end
@@ -103,7 +103,7 @@ RSpec.describe Api::NipposController do
           patch :update, params: { id: nippo.id, nippo: { body: '' } }
           expect(response).to be_present
           # FIXME
-          expect(response.body).to eq "[\"本文の入力は必須です\"]"
+          expect(response.body).to eq '["本文の入力は必須です"]'
         end
       end
 
@@ -112,7 +112,7 @@ RSpec.describe Api::NipposController do
 
         it 'redirects show' do
           patch :update, params: { id: nippo.id, nippo: { body: 'changed' } }
-          # TODO apiでredirectはやめたい
+          # TODO: apiでredirectはやめたい
           expect(response).to redirect_to(nippo_path(nippo))
         end
       end
@@ -122,7 +122,7 @@ RSpec.describe Api::NipposController do
 
         it 'returns 404' do
           expect { patch :update, params: { id: nippo.id, nippo: { body: 'changed' } } }
-              .to raise_error(ActionController::RoutingError)
+            .to raise_error(ActionController::RoutingError)
         end
       end
     end
@@ -157,7 +157,7 @@ RSpec.describe Api::NipposController do
         it 'increment existing reaction page view' do
           get :show, params: { id: nippo.id }
           expect { get :show, params: { id: nippo.id } }
-              .to change { Reaction.find_by(user: current_user, nippo: nippo).page_view }.by(1)
+            .to change { Reaction.find_by(user: current_user, nippo: nippo).page_view }.by(1)
         end
       end
     end

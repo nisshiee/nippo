@@ -4,8 +4,8 @@ class Api::NipposController < Api::ApiController
 
   def new
     @nippo = Nippo.new(
-        body: current_user.template.body,
-        reported_for: Nippo.default_report_date,
+      body: current_user.template.body,
+      reported_for: Nippo.default_report_date,
     )
     render json: @nippo
   end
@@ -30,16 +30,14 @@ class Api::NipposController < Api::ApiController
 
   def index
     @recent_nippos = Nippo
-                         .where.not(sent_at: nil)
-                         .order(sent_at: :desc)
-                         .limit(100)
+                     .where.not(sent_at: nil)
+                     .order(sent_at: :desc)
+                     .limit(100)
     render json: @recent_nippos
   end
 
   def show
-    unless @nippo.sent?
-      return render json: "error"
-    end
+    return render json: 'error' unless @nippo.sent?
 
     reaction = Reaction.find_or_create_by(user: current_user, nippo: @nippo)
     Reaction.increment_counter(:page_view, reaction.id)
@@ -56,5 +54,4 @@ class Api::NipposController < Api::ApiController
       sender.errors.full_messages
     end
   end
-
 end
