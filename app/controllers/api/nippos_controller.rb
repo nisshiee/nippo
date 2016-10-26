@@ -19,15 +19,6 @@ class Api::NipposController < Api::ApiController
     end
   end
 
-  def update
-    if update_nippo
-      render json: send_nippo
-    else
-      flash.now[:alert] = @nippo.errors.values.flatten
-      render json: @nippo.errors.values.flatten
-    end
-  end
-
   def index
     @recent_nippos = Nippo
                      .where.not(sent_at: nil)

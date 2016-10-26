@@ -88,45 +88,6 @@ RSpec.describe Api::NipposController do
       end
     end
 
-    describe 'PATCH update' do
-      let(:nippo) { FG.create(:nippo, user: current_user) }
-
-      it 'updates nippo', :vcr do
-        expect do
-          patch :update, params: { id: nippo.id, nippo: { body: 'changed' } }
-          nippo.reload
-        end.to change(nippo, :body).and change(nippo, :status).from('draft').to('sent')
-      end
-
-      context 'when nippo is invalid' do
-        it 'show alert and form' do
-          patch :update, params: { id: nippo.id, nippo: { body: '' } }
-          expect(response).to be_present
-          # FIXME
-          expect(response.body).to eq '["本文の入力は必須です"]'
-        end
-      end
-
-      context 'nippo has already sent' do
-        before { nippo.update(status: :sent) }
-
-        it 'redirects show' do
-          patch :update, params: { id: nippo.id, nippo: { body: 'changed' } }
-          # TODO: apiでredirectはやめたい
-          expect(response).to redirect_to(nippo_path(nippo))
-        end
-      end
-
-      context 'when nippo is owned by other' do
-        let(:nippo) { FG.create(:nippo) }
-
-        it 'returns 404' do
-          expect { patch :update, params: { id: nippo.id, nippo: { body: 'changed' } } }
-            .to raise_error(ActionController::RoutingError)
-        end
-      end
-    end
-
     describe 'GET show' do
       let(:nippo) { FG.create(:nippo, user: current_user) }
 
