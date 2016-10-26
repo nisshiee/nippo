@@ -2,7 +2,7 @@
 class Api::ApiController < ApplicationController
   before_action :doorkeeper_authorize!
   helper_method :current_user
-  protect_from_forgery with: :null_session
+  skip_before_action :verify_authenticity_token
 
   rescue_from CanCan::AccessDenied do |_|
     raise ActionController::RoutingError, 'Not Found'
