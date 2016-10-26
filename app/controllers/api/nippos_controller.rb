@@ -2,6 +2,7 @@
 class Api::NipposController < Api::ApiController
   include NippoHandleable
 
+  # 新規日報作成のためにテンプレートを取得
   def new
     @nippo = Nippo.new(
       body: current_user.template.body,
@@ -10,6 +11,7 @@ class Api::NipposController < Api::ApiController
     render json: @nippo
   end
 
+  # 日報をPOST
   def create
     if @nippo.save
       render json: send_nippo
@@ -18,6 +20,7 @@ class Api::NipposController < Api::ApiController
     end
   end
 
+  # 最新の日報を取得
   def index
     @recent_nippos = Nippo
                      .where.not(sent_at: nil)
@@ -26,6 +29,7 @@ class Api::NipposController < Api::ApiController
     render json: @recent_nippos
   end
 
+  # 日報の詳細を取得
   def show
     return render json: 'error' unless @nippo.sent?
 
@@ -36,6 +40,7 @@ class Api::NipposController < Api::ApiController
 
   private
 
+  # 日報送信ロジック
   def send_nippo
     sender = NippoSender.new(nippo: @nippo)
     if sender.run
