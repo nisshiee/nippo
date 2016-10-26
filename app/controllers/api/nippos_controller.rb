@@ -14,7 +14,6 @@ class Api::NipposController < Api::ApiController
     if @nippo.save
       render json: send_nippo
     else
-      flash.now[:alert] = @nippo.errors.values.flatten
       render json: @nippo.errors.values.flatten
     end
   end

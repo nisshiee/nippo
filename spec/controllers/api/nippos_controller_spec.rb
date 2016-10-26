@@ -57,7 +57,6 @@ RSpec.describe Api::NipposController do
             },
           }
           expect(response).to have_http_status(:success)
-          expect(flash[:alert]).to be_present
           expect(response).to be_present
           # FIXME
           expect(response.body).to eq '["本文の入力は必須です"]'
