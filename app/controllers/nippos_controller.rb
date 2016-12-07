@@ -28,10 +28,10 @@ class NipposController < PrivateController
   end
 
   def show
-    if @nippo.sent?
-      reaction = Reaction.find_or_create_by(user: current_user, nippo: @nippo)
-      Reaction.increment_counter(:page_view, reaction.id)
-    end
+    return unless @nippo.sent?
+
+    reaction = Reaction.find_or_create_by(user: current_user, nippo: @nippo)
+    Reaction.increment_counter(:page_view, reaction.id)
   end
 
   private

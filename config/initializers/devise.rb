@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# rubocop:disable Metrics/BlockLength
 class CustomFailure < Devise::FailureApp
   def redirect_url
     welcome_path

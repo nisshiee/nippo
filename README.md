@@ -1,6 +1,6 @@
 # 日報ツール
 
-[![CircleCI](https://circleci.com/gh/nisshiee/nippo.svg?style=svg)](https://circleci.com/gh/nisshiee/nippo)
+[![CircleCI](https://circleci.com/gh/speee/nippo.svg?style=svg)](https://circleci.com/gh/speee/nippo)
 
 メールで送られている日報を社内SNSのようなコミュニケーションツールに昇華するためのプラットフォームです。
 
@@ -13,7 +13,7 @@
 
 ## ご意見・ご要望
 
-[こちら](https://github.com/nisshiee/nippo/issues)から投稿してください。
+[こちら](https://github.com/speee/nippo/issues)から投稿してください。
 
 ※ 注意
 

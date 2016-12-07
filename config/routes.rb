@@ -31,4 +31,6 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'users/omniauth_callbacks',
   }
   get '/users/sign_out', controller: 'welcomes', action: 'sign_out'
+
+  mount KomachiHeartbeat::Engine => '/ops'
 end

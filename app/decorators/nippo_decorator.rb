@@ -16,6 +16,7 @@ module NippoDecorator
   private
 
   def needs_date_notice?
+    return false unless reported_for
     return false if persisted?
 
     now = Time.zone.now
