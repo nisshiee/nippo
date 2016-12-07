@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   private
 
   def set_application_raven_context
-    Raven.extra_context(params: params.to_h, url: request.url)
+    Raven.extra_context(params: params.to_unsafe_hash, url: request.url)
   end
 
   def enable_js_raven

@@ -1,3 +1,5 @@
 ---
 # The authentication token for the application.
 authentication: <%= Settings.skylight.authentication %>
+ignored_endpoints:
+  - 'KomachiHeartbeat::HeartbeatController#index'
