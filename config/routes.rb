@@ -1,5 +1,7 @@
 # frozen_string_literal: true
+# rubocop:disable Metrics/BlockLength
 Rails.application.routes.draw do
+  use_doorkeeper
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: 'home#index'
   resource :welcome, only: %i(show)
@@ -21,6 +23,10 @@ Rails.application.routes.draw do
     constraints: SubmitNameConstraint.new(:draft)
 
   resources :nippos, only: %i(new create show update)
+
+  namespace :api, format: 'json' do
+    resources :nippos, only: %i(index)
+  end
 
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',
